@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 import os
+import sqlitecloud
+
 
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_segura'
-CAMINHO_BANCO = 'database_belohorizonte.db'
+CAMINHO_BANCO = 'sqlitecloud://cmq6frwshz.g4.sqlite.cloud:8860/database_belohorizonte.db?apikey=Dor8OwUECYmrbcS5vWfsdGpjCpdm9ecSDJtywgvRw8k'
 
 def iniciar_banco():
-    with sqlite3.connect(CAMINHO_BANCO) as conexao:
+    with sqlitecloud.connect(CAMINHO_BANCO) as conexao:
         cursor = conexao.cursor()
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS profissionais (
@@ -36,7 +38,7 @@ def iniciar_banco():
 
 @app.route("/")
 def profissional():
-    with sqlite3.connect(CAMINHO_BANCO) as conexao:
+    with sqlitecloud.connect(CAMINHO_BANCO) as conexao:
         cursor = conexao.cursor()
         cursor.execute("SELECT * FROM profissionais")
         profissionais = cursor.fetchall()
@@ -62,7 +64,7 @@ def home():
     else:
         mostrar_login = False
 
-    with sqlite3.connect(CAMINHO_BANCO) as conexao:
+    with sqlitecloud.connect(CAMINHO_BANCO) as conexao:
         cursor = conexao.cursor()
         cursor.execute("SELECT * FROM profissionais")
         profissionais = cursor.fetchall()
@@ -83,7 +85,7 @@ def logout():
 def cadastrar():
     nome = request.form["nome"]
     especialidade = request.form["especialidade"]
-    with sqlite3.connect(CAMINHO_BANCO) as conexao:
+    with sqlitecloud.connect(CAMINHO_BANCO) as conexao:
         cursor = conexao.cursor()
         cursor.execute("INSERT INTO profissionais (nome, especialidade) VALUES (?, ?)", (nome, especialidade))
         conexao.commit()
@@ -93,7 +95,7 @@ def cadastrar():
 def alocar():
     sala_id = request.form["sala_id"]
     profissional_id = request.form["profissional_id"]
-    with sqlite3.connect(CAMINHO_BANCO) as conexao:
+    with sqlitecloud.connect(CAMINHO_BANCO) as conexao:
         cursor = conexao.cursor()
         cursor.execute("UPDATE salas SET profissional_id = NULL WHERE profissional_id = ?", (profissional_id,))
         cursor.execute("UPDATE salas SET profissional_id = ? WHERE id = ?", (profissional_id, sala_id))
@@ -102,7 +104,7 @@ def alocar():
 
 @app.route("/desalocar/<int:sala_id>")
 def desalocar(sala_id):
-    with sqlite3.connect(CAMINHO_BANCO) as conexao:
+    with sqlitecloud.connect(CAMINHO_BANCO) as conexao:
         cursor = conexao.cursor()
         cursor.execute("UPDATE salas SET profissional_id = NULL WHERE id = ?", (sala_id,))
         conexao.commit()
@@ -111,4 +113,4 @@ def desalocar(sala_id):
 if __name__ == "__main__":
     if not os.path.exists(CAMINHO_BANCO):
         iniciar_banco()
-    app.run(debug=True)
+    app.run(debug=True,port =5000 ,host='0.0.0.0')
