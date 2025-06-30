@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: 001xp
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uwsgi --ini uwsgi.ini"
