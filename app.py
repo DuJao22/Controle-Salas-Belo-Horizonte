@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_segura'
-CAMINHO_BANCO = 'database.db'
+CAMINHO_BANCO = 'database_belohorizonte.db'
 
 def iniciar_banco():
     with sqlite3.connect(CAMINHO_BANCO) as conexao:
