@@ -1,8 +1,9 @@
 services:
   - type: web
-    name: 001xp
+    name: controle-salas
     env: python
-    region: oregon
-    plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uwsgi --ini uwsgi.ini"
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
