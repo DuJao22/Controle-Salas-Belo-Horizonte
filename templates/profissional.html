@@ -21,7 +21,7 @@
       </div>
       <div>
         <h1 class="font-semibold text-gray-900 text-base leading-tight">Sistema de Controle de Salas</h1>
-        <p class="text-gray-600 text-xs leading-tight">Clínica Médica</p>
+        <p class="text-gray-600 text-xs leading-tight">Clínica Belo Horizonte</p>
       </div>
     </div>
     <div class="flex items-center space-x-6 text-sm text-gray-700">
@@ -59,7 +59,7 @@
             <h3 class="font-semibold text-gray-900 text-base">{{ sala[1] }}</h3>
             <span class="w-3 h-3 rounded-full {{ 'bg-green-600' if not sala[2] else 'bg-red-500' }} mt-1" title="{{ 'Disponível' if not sala[2] else 'Ocupada' }}"></span>
           </div>
-          <img class="mb-2 rounded-full" height="48" width="48" src="https://storage.googleapis.com/a1aa/image/ef0ab327-fb94-4d89-0f14-c7db7e3981d5.jpg" alt="Ícone usuário">
+          <img class="mb-2 rounded-full" height="48" width="48" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-at3-kr-oWLrVWr_tXLrktpPci-fr4bq0gQ&s" alt="Ícone usuário">
           <p class="text-xs text-gray-500">{{ sala[2] if sala[2] else 'Sala disponível' }}</p>
         </article>
         {% endfor %}
@@ -67,14 +67,7 @@
       {% endfor %}
     </section>
 
-    <!-- PROFISSIONAIS -->
-    <section id="profissionais" class="tab">
-      <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-6">
-        <h2 class="text-[#1e293b] font-semibold text-lg leading-6">Profissionais Cadastrados</h2>
-        <button onclick="abrirModal()" class="flex items-center gap-2 bg-[#2563eb] text-white text-sm font-normal rounded-md px-4 py-2 hover:bg-[#1e40af] transition">
-          <i class="fas fa-plus"></i> Adicionar Profissional
-        </button>
-      </div>
+  
 
       
   </main>
