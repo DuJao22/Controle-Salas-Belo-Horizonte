@@ -54,7 +54,7 @@ def home():
     if request.method == "POST":
         usuario = request.form.get("usuario")
         senha = request.form.get("senha")
-        if usuario == "Dujao" and senha == "20e10":
+        if usuario == "jessica123" and senha == "20e10":
             session["usuario"] = usuario
         else:
             flash("Usuário ou senha inválidos.")
