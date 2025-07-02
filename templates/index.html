@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sistema de Controle de Salas</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2229/2229739.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
@@ -43,8 +44,20 @@
       <button onclick="showTab('profissionais')" class="tab-button text-gray-700 bg-white/70 px-4 py-1 rounded-md text-sm font-normal">Profissionais</button>
     </nav>
 
-    <!-- VISÃO DAS SALAS -->
     <section id="salas" class="tab tab-active">
+
+      <!-- Formulário para escolher a data -->
+      <form method="get" action="/mapaadm" class="mb-6 flex items-center gap-3">
+        <label for="data" class="text-sm font-semibold text-gray-800">Selecione o dia:</label>
+        <input type="date" id="data" name="data" value="{{ data }}" class="border border-gray-300 rounded p-2 text-sm shadow-sm" required>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm shadow-md">
+          Ver Mapa
+        </button>
+      </form>
+
+      <!-- Confirmação visual da data carregada -->
+      <p class="text-sm text-gray-600 mb-4">Data carregada: <strong>{{ data }}</strong></p>
+
       {% for andar in [1, 2] %}
       <h2 class="flex items-center font-semibold text-gray-900 text-lg mb-4">
         <i class="fas fa-building text-blue-600 mr-2"></i> {{ andar }}º Andar
@@ -56,16 +69,27 @@
             <h3 class="font-semibold text-gray-900 text-base">{{ sala[1] }}</h3>
             <span class="w-3 h-3 rounded-full {{ 'bg-green-600' if not sala[2] else 'bg-red-500' }} mt-1" title="{{ 'Disponível' if not sala[2] else 'Ocupada' }}"></span>
           </div>
-          <img class="mb-2 rounded-full" height="48" width="48" src="https://storage.googleapis.com/a1aa/image/ef0ab327-fb94-4d89-0f14-c7db7e3981d5.jpg" alt="Ícone usuário">
+          <img class="mb-2 rounded-full" height="48" width="48" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-at3-kr-oWLrVWr_tXLrktpPci-fr4bq0gQ&s" alt="Ícone usuário">
           <p class="text-xs text-gray-500">{{ sala[2] if sala[2] else 'Sala disponível' }}</p>
         </article>
         {% endfor %}
       </div>
       {% endfor %}
+
     </section>
 
-    <!-- PROFISSIONAIS -->
+<!-- PROFISSIONAIS -->
     <section id="profissionais" class="tab">
+
+      <!-- Selecionar data da escala -->
+      <form method="get" action="/admin" class="flex items-center gap-3 mb-6">
+        <label for="data" class="text-sm font-semibold text-gray-800">Data da Escala:</label>
+        <input type="date" id="data" name="data" value="{{ data }}" required
+          class="border border-gray-300 rounded px-3 py-2 text-sm shadow-sm">
+        <button type="submit"
+          class="bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md px-4 py-2 shadow-md">Ver</button>
+      </form>
+
       <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-6">
         <h2 class="text-[#1e293b] font-semibold text-lg leading-6">Profissionais Cadastrados</h2>
         <button onclick="abrirModal()" class="flex items-center gap-2 bg-[#2563eb] text-white text-sm font-normal rounded-md px-4 py-2 hover:bg-[#1e40af] transition">
@@ -87,6 +111,7 @@
           </div>
           <form method="POST" action="/alocar" class="flex flex-col space-y-2">
             <input type="hidden" name="profissional_id" value="{{ profissional[0] }}" />
+            <input type="hidden" name="data" value="{{ data }}" />
             <select name="sala_id" required class="rounded border border-gray-300 px-2 py-1 text-sm">
               <option value="">Alocar em Sala</option>
               {% for sala in salas if sala[2] == None %}
@@ -99,6 +124,7 @@
         {% endfor %}
       </div>
     </section>
+
   </main>
 
   <!-- MODAL CADASTRO -->
